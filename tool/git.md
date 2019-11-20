@@ -741,6 +741,24 @@ git push origin :refs/tags/v1.0
 或 git push origin --delete tag v1.0
 ```
 
+## git 仓库分离
+
+将一个 git 仓库里的一部分文件转出作为一个独立的仓库并保留提交记录 commit log
+
+```
+# 这就是那个大仓库 big-project
+git clone git@github.com:**/big-project.git
+cd big-project
+# 把所有 `source/page` 目录下的相关提交整理为一个新的分支 page
+git subtree split -P source/page -b page
+# 另建一个新目录并初始化为 git 仓库
+mkdir ../page
+cd ../page
+git init
+# 拉取旧仓库的 page 分支到当前的 master 分支
+git pull ../big-project page
+```
+
 ## git 修改提交历史
 
 修改最后一条 commit
