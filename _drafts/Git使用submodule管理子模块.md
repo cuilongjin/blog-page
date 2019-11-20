@@ -135,5 +135,3 @@ git submodule update //
 ```
 git rm [submodule name]
 ```
-
-将一个 git 仓库里的一部分文件转出作为一个独立的仓库并保留提交记录 commit log

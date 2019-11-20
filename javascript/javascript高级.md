@@ -978,6 +978,30 @@ console.log(newFn)
 newFn() // this ==> [1,2,3]
 ```
 
+如果对一个函数进行多次 bind，那么上下文会是什么呢
+
+```js
+let a = {}
+let fn = function() {
+  console.log(this)
+}
+fn.bind().bind(a)() // => ?
+```
+
+如果你认为输出结果是 a，那么你就错了，其实我们可以把上述代码转换成另一种形式
+
+```js
+// fn.bind().bind(a) 等于
+let fn2 = function fn1() {
+  return function() {
+    return fn.apply()
+  }.apply(a)
+}
+fn2()
+```
+
+可以从上述代码中发现，不管我们给函数 bind 几次，fn 中的 this 永远由第一次 bind 决定，所以结果永远是 window。
+
 #### 特殊的 this 指向
 
 - 定时器中的 this 指向了 window，因为定时器的 function 最终是由 window 来调用的
@@ -1031,7 +1055,11 @@ function getType(obj) {
 
 > 绘制完整版原型链的目的是辅助大家理解 js 中对象的继承关系
 
+图一
 ![](javascript高级/full.png)
+
+图二
+![](javascript高级/原型链.webp)
 
 总结：
 

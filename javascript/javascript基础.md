@@ -437,7 +437,7 @@ console.log(num4) // 345
 
 ```js
 // 数组转换成 数值
-// 空数组为0，存在一个元素且可转换成数字，则转换成该数字，其他情况为 NaN
+// 空数组为 0，存在一个元素且可转换成数字，则转换成该数字，其他情况为 NaN
 Number([]) // 0
 Number(['2']) // 2
 Number(['1', '2']) // naN
@@ -456,7 +456,7 @@ parseInt(string, radix)
 // radix 基数,表示进制，介于 2 和 36 之间的整数，参数 radix 的值为 0，或没有设置该参数时，parseInt() 会根据 string 来判断数字的基数
 // 返回解析后的整数值。 如果被解析参数的第一个字符无法被转化成数值类型，则返回 NaN。
 parseInt('123', 5) // 将 '123' 看作 5 进制数，返回十进制数 38
-  [(1, 2, 3)].map(parseInt) // [1, NaN, NaN]
+// [1, 2, 3].map(parseInt) // [1, NaN, NaN]
 // [1, 2, 3].map(parseInt(item, index))
 ```
 
@@ -464,9 +464,10 @@ parseInt('123', 5) // 将 '123' 看作 5 进制数，返回十进制数 38
 
 ```js
 // 语法
-parseFloat(value)
-// value 需要被解析成为浮点数的值
+parseFloat(value) // value 需要被解析成为浮点数的值
 parseFloat('3.14') // 3.14
+
+// [1, 2, 3].map(parseFloat) // [1, 2, 3]
 ```
 
 ## 转换成布尔值
@@ -530,6 +531,7 @@ if ('') {
 | Infinity  | true     | Infinity | "Infinity"        |
 | NaN       | false    | NaN      | "NaN"             |
 | {}        | **true** | NaN      | "[object Object]" |
+| 数组      | true | 空数组为 0，存在一个元素且为数字转数字，其他 NaN | [1, '123', [], undefined, null, NaN, true ] => "1,123,,,,NaN,true" |
 
 # 操作符
 
@@ -543,14 +545,18 @@ var num = 5 % 2 // 1 取余数
 var num = 5 % -2 // 1
 var num = -5 % 2 // -1 只与左边值的符号有关
 
-var num = '5' + 6 + 7 // "567" 数字与字符串相加，返回字符串
-var num = 5 + 6 + '7' // "117"
-var num = '' + 5 + 6 + '7' // "567" 字符串 + 数字得到字符串
-var num = '' + 5 + 6 + 7 // "567"
+var num = '5' + 6 + 7 // '567' 数字与字符串相加，返回字符串
+var num = 5 + 6 + '7' // '117'
+var num = '' + 5 + 6 + '7' // '567' 字符串 + 数字得到字符串
+var num = '' + 5 + 6 + 7 // '567'
 
 var num = 5 + true // 6  返回数值，false 转成 0，true 转成 1
 
-var num = '1' + true // "1true" 字符串与布尔值相加,布尔值转化成字符串
+var num = '1' + true // '1true' 字符串与布尔值相加,布尔值转化成字符串
+
+'a' + + 'b' // -> 'a' + +'b' -> 'aNaN'
+4 * '3' // 12
+true + true // 2
 ```
 
 ## 赋值操作符
@@ -605,7 +611,7 @@ alert(result) // true 输出Boolean类型
   - 在比较相等性之前，不能将 null 和 undefined 转换为其他任何值
   - 如果有一个操作符是 NaN，则相等操作符返回 false，不相等操作符返回 true；即使两个操作数都是 NaN，也一样
 
-* `===` 全等、`！===` 不全等
+* `===` 全等、`!==` 不全等
   两个操作数在未经转换的情况下相等返回 true，不相等返回 false
 
 ```js
@@ -613,7 +619,7 @@ alert(result) // true 输出Boolean类型
 1 == true // true
 2 == true // false
 
-false == "0" // true
+false == '0' // true
 '' == 0 // true
 '4' == 4 // true
 
@@ -621,7 +627,7 @@ null == undefined // true
 undefined == 0 // false
 null == 0 // false
 
-"NaN" == NaN // false
+'NaN' == NaN // false
 5 == NaN // false
 NaN == NaN // false
 NaN != NaN // true
@@ -634,7 +640,7 @@ NaN != NaN // true
 1 == [1] // true
 
 -0 === 0 // true
-"4" === 4 // false
+'4' === 4 // false
 undefined === null // false
 ```
 
@@ -648,7 +654,7 @@ undefined === null // false
 
 ## 逻辑操作符
 
-> `！` 非、`&&` 与、`||` 或
+> `!` 非、`&&` 与、`||` 或
 
 - `!` 对 Boolean 值取反
 
@@ -658,7 +664,7 @@ alert(!flag) // false
 
 alert(!0) // true
 alert(![]) // false
-alert(!“”) // true
+alert(!'') // true
 alert(!![]) // true
 alert(!!1) // true
 ```
@@ -668,13 +674,13 @@ alert(!!1) // true
 ```js
 var result = true && 3 // 3
 var result = 1 && 3 // 3
-var result = [] && '' // ""
+var result = [] && '' // ''
 var result = false && 3 // false
-var result = '' && 3 // ""
+var result = '' && 3 // ''
 var result = null && true // null
 
 var num = 0
-var result = '' && num++ // ""  num = 0
+var result = '' && num++ // ''  num = 0
 ```
 
 `&&` 使用場景
@@ -984,7 +990,7 @@ for (var i = 1; i <= 10; i++) {
    ```js
    var arr = new Array() // 创建了一个空数组
    var arr = new Array(4) // 创建了一个数组，长度为4,里面全是空值
-   var arr = new Array('4') // 创建了一个数组，长度为1,内容为字符串 "4"
+   var arr = new Array('4') // 创建了一个数组，长度为1,内容为字符串 '4'
    var arr = new Array(2, 3) // 创建了一个数组，里面存放了2个数字
    ```
 
@@ -1056,7 +1062,7 @@ for (var j = 0; j < arr.length - 1; j++) {
   numj += 1
   var flag = true
   for (var i = 0; i < arr.length - 1 - j; i++) {
-    // document.write("(" + arr[i] + "," + arr[i + 1] + ")")
+    // document.write('(' + arr[i] + ',' + arr[i + 1] + ')')
     numi += 1
     // 两两比较，如果前面的大于后面的，交换位置
     if (arr[i] > arr[i + 1]) {
@@ -1065,11 +1071,11 @@ for (var j = 0; j < arr.length - 1; j++) {
       temp = arr[i]
       arr[i] = arr[i + 1]
       arr[i + 1] = temp
-      // document.write("交换了")
+      // document.write('交换了')
     }
   }
-  // document.write("，arr=（" + arr + "）")
-  // document.write("<br>")
+  // document.write('，arr=（' + arr + '）')
+  // document.write('<br>')
   // 如果一趟下来，一次交换都没有做，说明就已经排好序，就不需要继续比
   if (flag) {
     break
@@ -1617,7 +1623,7 @@ for (var key in obj) {
 }
 
 // 判断一个属性是否是对象的一个属性
-// console.log("name" in obj) 返回布尔值
+// console.log('name' in obj) 返回布尔值
 if ('name' in obj) {
   console.log('是')
 }
