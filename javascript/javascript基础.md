@@ -680,7 +680,7 @@ var result = '' && num++ // ""  num = 0
 `&&` 使用場景
 
 ```js
-function animate (fn) {
+function animate(fn) {
   fn && fn()
 }
 // 不传参数不会报错
@@ -2105,7 +2105,11 @@ var new1 = arr.reduce(function(pre, next, index) {
 
 ```js
 // 扁平化数组
-var arr2 = [[1, 2, 3], [4, 5], [6, 7]]
+var arr2 = [
+  [1, 2, 3],
+  [4, 5],
+  [6, 7]
+]
 var new2 = arr2.reduce(function(pre, next, index) {
   return pre.concat(next) // 前数组拼接后数组 .concat()
 })
@@ -2113,7 +2117,11 @@ var new2 = arr2.reduce(function(pre, next, index) {
 
 ```js
 // 对象数组叠加计算
-var arr3 = [{ price: 1, count: 1 }, { price: 2, count: 2 }, { price: 3, count: 3 }]
+var arr3 = [
+  { price: 1, count: 1 },
+  { price: 2, count: 2 },
+  { price: 3, count: 3 }
+]
 var new3 = arr3.reduce(function(pre, next, index) {
   return pre + next.price * next.count
 
@@ -2220,12 +2228,16 @@ var arr = str.split(',')
 
 - 字符串替换
 
-```js
-str.replace(searchValue, replaceValue)
-// 参数：searchValue: 需要替换的值    replaceValue: 用来替换的值  默认只替换第一个
-str.replace(/searchValue/g, replaceValue) // 全部替换
+```
+// 语法
+str.replace(regexp/substr, replacement)
+// 参数：regexp/substr: 需要替换的内容    replacement: 替换文本或生成替换文本的函数  默认只替换第一个匹配子串
+str.replace(/regexp/g, replacement) // 全部替换
+
 str.replace(/ /g, '') // 将全部空格去掉
 ```
+
+replace() 方法的参数 replacement 可以是函数而不是字符串。在这种情况下，每个匹配都调用该函数，它返回的字符串将作为替换文本使用。该函数的第一个参数是匹配模式的字符串。接下来的参数是与模式中的子表达式匹配的字符串，可以有 0 个或多个这样的参数。接下来的参数是一个整数，声明了匹配在 stringObject 中出现的位置。最后一个参数是 stringObject 本身。
 
 - 访问
 
@@ -2243,4 +2255,24 @@ str.charAt(i)
 3. 把字符串中所有的o替换成!
 4. 把一个字符串中所有的空格全部去掉
 5. 统计一个字符串中每个字符出现的次数
+```
+
+```js
+// 寻找重复最多的字符以及个数
+var str = 'shdshdfjkfjfdgjkjdksgjskdjfsfsfsfjksjkfdkjf'
+var arr = str.split('').sort()
+str = arr.join('')
+var count = 0
+var char = 0
+var reg = /(\w)\1+/g
+str.replace(reg, function(a, b, c, d) {
+  console.log(a, b, c, d) // a 匹配模式的字符串 b 与模式中的子表达式匹配的字符串 c 匹配在 str 中出现的位置 d  str 本身
+  if (a.length > count) {
+    count = a.length
+    char = b
+  }
+})
+console.log(str)
+
+console.log('最多的字符为:' + char + ';个数为:' + count)
 ```
