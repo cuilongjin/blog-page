@@ -759,6 +759,28 @@ git init
 git pull ../big-project page
 ```
 
+## 快速克隆大项目
+
+克隆单个分支
+
+```bash
+git clone --branch <branch_name> <remote-address>
+```
+
+只克隆最新的提交记录
+
+```bash
+git clone <remote-address> --depth 1
+```
+
+-- depth 代表克隆的深度，--depth 1 代表只克隆最新一次提交记录以及这次提交之后的最新内容，不克隆历史提交，所造成的影响就是不能查看历史提交记录
+
+克隆单个分支的最新一次提交
+
+```
+git clone --branch <branch_name> <remote-address> --depth 1
+```
+
 ## git 修改提交历史
 
 修改最后一条 commit
