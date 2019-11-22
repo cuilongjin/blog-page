@@ -629,15 +629,73 @@ console.log(p.skill)
 
 ### Object.create
 
+[MDN](https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/Object/create)
+
 > 最初是由道格拉斯丶克罗克福德发布的一篇文章提出的，ECMAScript5 新增了 Object.create() 方法来规范化了这种继承
 
-ES5 中新增了一个方法 `Object.create()`，方法会使用指定的原型对象及其属性去创建一个新的对象
+ES5 中新增 `Object.create()` 创建新对象， 使用指定的原型对象来提供新创建的对象的 `__proto__`
 
-```javascript
-// 参数：proto 一个对象
-// 返回值：obj 新对象，新对象的原型就是 proto
+```js
+// 语法
+Object.create(proto[, propertiesObject])
+// 参数：proto 一个对象,新创建对象的原型对象
+// 参数：propertiesObject 要添加到新创建对象的可枚举属性
+// 返回值：一个新对象，带着指定的原型对象和属性
+
 var obj = Object.create(proto)
 console.log(obj)
+```
+
+使用 `Object.create()` 来实现继承
+
+```js
+// Shape - 父类(superclass)
+function Shape() {
+  this.x = 0
+  this.y = 0
+}
+
+// 父类的方法
+Shape.prototype.move = function(x, y) {
+  this.x += x
+  this.y += y
+  console.info('Shape moved.')
+}
+
+// Rectangle - 子类(subclass)
+function Rectangle() {
+  Shape.call(this) // call super constructor.
+}
+
+// 子类续承父类
+Rectangle.prototype = Object.create(Shape.prototype)
+Rectangle.prototype.constructor = Rectangle
+
+var rect = new Rectangle()
+
+console.log('Is rect an instance of Rectangle?', rect instanceof Rectangle) // true
+console.log('Is rect an instance of Shape?', rect instanceof Shape) // true
+rect.move(1, 1) // Outputs, 'Shape moved.'
+```
+
+如果你希望能继承到多个对象，则可以使用混入的方式。
+
+```js
+function MyClass() {
+  SuperClass.call(this)
+  OtherSuperClass.call(this)
+}
+
+// 继承一个类
+MyClass.prototype = Object.create(SuperClass.prototype)
+// 混合其它
+Object.assign(MyClass.prototype, OtherSuperClass.prototype)
+// 重新指定constructor
+MyClass.prototype.constructor = MyClass
+
+MyClass.prototype.myMethod = function() {
+  // do a thing
+}
 ```
 
 ## 函数进阶

@@ -363,12 +363,18 @@ ES6 中出现了 class 关键字，用来实现面向对象
 class 声明不允许再次声明已经存在的类，否则将会抛出一个类型错误
 class 声明不可以提升
 
-class 仅仅是一个语法结构（语法糖），本质上还是通过构造函数+原型的方式来实现继承的
+class 仅仅是一个语法结构（语法糖），本质还是函数，实现继承本质上还是通过构造函数+原型的方式
 
-```javascript
+```js
+class Person {}
+Person instanceof Function // true
+```
+
+类声明
+
+```js
 // 基本使用
 // 创建 Person 类
-// 类表达式 let Person = class {}
 class Person {
   // 类的构造函数
   // constructor 固定名称
@@ -388,6 +394,25 @@ const p = new Person('tom', 18)
 console.log(p)
 p.say()
 ```
+
+类表达式
+
+赋予一个命名类表达式的名称是类的主体的本地名称
+
+```js
+// 匿名类
+let Person = class {}
+new Person() // Person {}
+
+// 命名类
+let Person = class A {}
+new Person() // A {}
+new A() //A {}
+console.log(Person) // class A {}
+console.log(A) // A is not defined
+```
+
+类表达式也不存在提升
 
 static 关键字用来定义一个类的静态方法。调用静态方法不需要实例化该类，但不能通过一个类实例调用静态方法
 

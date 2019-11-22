@@ -456,6 +456,43 @@ git clone https://github.com/theme-next/theme-next-pace source/lib/pace
 </script>
 ```
 
+### 设置首页隐藏指定文章
+
+自定义 front-matter 的参数
+例如，自定义添加一个 notshow 参数，值为 true 表示隐藏
+
+修改主题的 `\themes\next\layout\index.swig` 文件
+
+将
+
+```
+{% block content %}
+  <section id="posts" class="posts-expand">
+    {% for post in page.posts %}
+        {{ post_template.render(post, true) }}
+    {% endfor %}
+  </section>
+
+  {% include '_partials/pagination.swig' %}
+{% endblock %
+```
+
+改成
+
+```
+{% block content %}
+  <section id="posts" class="posts-expand">
+    {% for post in page.posts %}
+        {% if post.notshow != true %}
+            {{ post_template.render(post, true) }}
+        {% endif %}
+    {% endfor %}
+  </section>
+
+  {% include '_partials/pagination.swig' %}
+{% endblock %}
+```
+
 ## 添加评论系统
 
 ### Gitmen 评论
