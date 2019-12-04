@@ -664,11 +664,11 @@ Shape.prototype.move = function(x, y) {
 
 // Rectangle - 子类(subclass)
 function Rectangle() {
-  Shape.call(this) // call super constructor.
+  Shape.call(this) // call super constructor. 继承父类的属性
 }
 
 // 子类续承父类
-Rectangle.prototype = Object.create(Shape.prototype)
+Rectangle.prototype = Object.create(Shape.prototype) // 将父类的原型赋值给了子类
 Rectangle.prototype.constructor = Rectangle
 
 var rect = new Rectangle()
