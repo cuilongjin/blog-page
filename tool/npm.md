@@ -143,3 +143,17 @@ nrm add 别名 地址 ： 添加源
 nrm test 别名 ： 测速
 
 nrm del 别名 ：删除源
+
+### 查看项目安装了那些包
+
+```bash
+npm list --depth=0 [--dev | --production]
+npm list --depth=0
+```
+–depth 表示深度，我们使用的模块会有依赖，深度为零的时候，不会显示依赖模块
+
+### 查看全局安装的包
+
+```bash
+npm list --depth=0 --global
+```

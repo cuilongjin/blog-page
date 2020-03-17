@@ -641,6 +641,18 @@ Vue 为最常用的按键提供了别名：
 ```js
 computed: {
   message () {},
+
+  // 对象写法
+  num1: {
+    // this.num1 时触发
+    get () {
+      return this.num * 2
+    },
+    // this.num1 = 1 时触发
+    set (val) {
+      this.num = this.num + val
+    }
+  }
 }
 ```
 
@@ -653,8 +665,6 @@ computed: {
 计算属性只能当属性用，不能当方法用
 
 不能和 data 中的属性名重名
-
-
 
 ## key
 
@@ -748,7 +758,7 @@ data: {
 
 watch: {
   // 监听对象
-  obj (newVal) {
+  obj (newVal, oldVal) {
     // 虽然 obj 中的属性值发生改变了，但 obj 引用的地址没有发生改变，所以不会触发事件
     console.log(newVal)
   },
@@ -761,7 +771,7 @@ watch: {
     // 页面刚进入立即触发监听，以表达式的当前值触发回调
     immediate: true,
     // 对象里的属性值发生变化，调用 handler 方法
-    handler (newVal) {
+    handler (newVal, oldVal) {
       this.msg = `obj.age 值变化了，新值：${newVal.age}`
     }
   },
@@ -1977,10 +1987,7 @@ this.todoList = this.todoList.filter(item => item.id !== id)
 ```js
 computed: {
   // 计算属性 判断底部是否显示
-  // 1. 计算属性只会跟着相关属性的值发生变化而变化
-  // 2. 一定要有返回值
-  // 3. 一定要写在 computed 里面
-  // 4. 写起来像一个方法，用起来像一个属性
+  // 计算属性只会跟着相关属性的值发生变化而变化
   isFooter () {
     return this.todoList.length > 0
   }

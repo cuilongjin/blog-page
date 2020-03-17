@@ -202,15 +202,28 @@ module.exports = {
     // 端口号
     port: 3000,
     // hot: true,
-    
+
+    // https://webpack.docschina.org/configuration/dev-server/#devserver-proxy
     proxy: {
       '/api': { // api 表示当前项目请求的 key
         target: 'http://www.baidu.com', // 代理服务器路径
         pathRewrite: { '^/api': '/api' }, // 重写路径
-        changeOrigin: true
+        changeOrigin: true,
+        secure: false //
+      },
+      // 请求 localhost:8080/api/.. 会被代理到 http://www.baidu.com/api/..
+
+      // 使用一个函数来控制代理
+      '/api1': {
+        target: 'http://www.baidu.com',
+        bypass: function (req, res, proxyOptions) {
+          // 返回 false 或路径，来跳过代理请求
+        }
       }
     }
-    // 请求 localhost:8080/api/.. 会被代理到 http://www.baidu.com/api/..
+
+
+
   },
 
   // plugins: [

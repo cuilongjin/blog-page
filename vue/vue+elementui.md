@@ -20,16 +20,35 @@ updated: 2019/02/19 19:38:00
 
 scoped
 
+[参考-Scoped CSS](https://vue-loader.vuejs.org/zh/guide/scoped-css.html#scoped-css)
+
 vue 组件之间的样式有自动复用的问题，给一个类设置样式，其他组件中相同类的元素也会被设置样式
 
 解决：在 `style` 标签上添加 `scoped` 字段，设置样式只作用于当前组件
 
 `<style scoped></style>`
 
-作用 1：让当前组件内的样式，只能在当前组件上起效果
-作用 2：如果添加了 scoped，样式只会对本来就存在的标签/组件起效果，如果是动态添加的组件/标签，是无效的
+作用：让当前组件内的样式，只能在当前组件上起效果
+使用 scoped 后，父组件的样式将不会渗透到子组件中。不过一个子组件的根节点会同时受其父组件的 scoped CSS 和子组件的 scoped CSS 的影响。这样设计是为了让父组件可以从布局的角度出发，调整其子组件根元素的样式。
 
-动态添加的组件/标签，在 `.vue`文件里添加一个 style 标签，在标签里设置该样式属性，或者在选择器前添加`/deep/`
+深度作用选择器
+使用 scoped 后，如果希望父组件的样式渗透到子组件中，可以使用 `>>>` 操作符
+
+对于less 和scss 不支持 `>>>` 可以使用 /deep/ 或 ::v-deep 操作符，这两个都是 `>>>` 的别名
+
+```html
+<style scoped>
+.a >>> .b { /* ... */ }
+</style>
+
+<style scoped lang='less'>
+  .a {
+    /deep/.b {}
+    ::v-deep.b {}
+  }
+</style>
+
+```
 
 vm.\$nextTick( [callback\] )：将回调延迟到下次 DOM 更新循环之后执行
 
